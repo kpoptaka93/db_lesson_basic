@@ -66,10 +66,11 @@ WHERE
 ORDER BY
   `created_at`;
 
--- peopleテーブルの名前、メール、年齢の３つのカラムを表示して部署番号が1番のレコードに絞って日付の古い順で並べる。
+-- peopleテーブルの中にあるname,email,ageの三つのカラムの取得をするが、department_idの値が１になっているレコードだけを取得し、作成日の古い順に並べる
 
 
-SELECT name FROM people WHERE (age >= 20 AND age <= 29 AND gender = 2) OR (age >= 40 AND age <= 49 AND gender = 1);
+SELECT name FROM people WHERE (gender = 2 AND age BETWEEN 20 AND 29) OR (gender = 1 AND age BETWEEN 40 AND 49);
+
 
 
 
@@ -78,7 +79,8 @@ SELECT * FROM people WHERE department_id = 1 ORDER BY age;
 
 SELECT AVG(age) AS average_age FROM people WHERE department_id = 2 AND gender = 2;
 
-SELECT p.name, d.name, r.content FROM people p JOIN departments d USING (department_id) JOIN reports r USING (person_id);
+SELECT p.name, d.name, r.content FROM people p JOIN departments d ON p.department_id = d.department_id JOIN reports r ON p.person_id = r.person_id;
 
 
-SELECT p.name FROM people p LEFT JOIN reports r USING(person_id) WHERE r.person_id IS NULL;
+
+SELECT p.name FROM people p LEFT JOIN reports r USING(person_id) WHERE r.person_id IS NULL; 
